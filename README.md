@@ -1,101 +1,159 @@
-# buzzline-02-case
+afka Buzzline Project
+Table of Contents
+Overview
+Features
+Project Structure
+Prerequisites
+Setup & Installation
+How to Run
+Windows
+MacLinux
+Logging & Real-Time Analytics
+Troubleshooting
+Contributing
+License
+Overview
+This project demonstrates how to use Kafka for sending and receiving messages in real time. The Producer publishes messages to a Kafka topic, and the Consumer processes (and optionally analyzes) those messages.
 
-Streaming data is often too big for any one machine. 
-A streaming platform helps organize our pipelines.
+Features
+Custom Kafka Producer: Sends custom messages to a specified Kafka topic.
+Custom Kafka Consumer: Reads messages from the same Kafka topic, logs them in real time, and highlights important patterns or alerts (e.g., messages containing the word "error").
+Real-Time Analytics: Simple alerting mechanism for messages matching certain keywords or patterns.
+Logging: Uses Python’s built-in logging module for structured, time-stamped logs.
+Project Structure
+lua
+Copy
+Edit
+.
+├── consumers
+│   ├── kafka_consumer_example.py
+│   └── kafka_consumer_yourname.py   <-- Your unique consumer
+├── producers
+│   ├── kafka_producer_example.py
+│   └── kafka_producer_yourname.py   <-- Your unique producer
+├── logs
+│   └── [log files]
+├── README.md                        <-- This file
+├── requirements.txt
+└── ...
+consumers/: Contains Python scripts for Kafka consumers.
+producers/: Contains Python scripts for Kafka producers.
+logs/: Log files output by producer or consumer scripts.
+requirements.txt: Lists Python dependencies.
+README.md: Documentation (this file).
+Prerequisites
+Kafka: Ensure you have a running Kafka broker.
+Typically, this means having Kafka and Zookeeper installed and started on localhost:9092.
+Python 3.7+: Required for running the scripts.
+Virtual Environment (Recommended): For managing dependencies.
+Setup & Installation
+Clone the Repository
 
-A common pattern for managing streaming pipelines is publish-subscribe, similar to how Twitter operates:
-
-- Producers publish streaming information.
-- Consumers subscribe to specific "topics" to process, analyze, and generate alerts based on detected conditions.
-
-In this project, we use Apache Kafka, a popular, open-source streaming platform.
-We write producers that send data to topics and consumers that read from topics.
-
-> Kafka needs space - it's big. We'll use the Windows Subsystem for Linux on Windows machines. 
-
-## Task 1. Install and Start Kafka (using WSL if Windows)
-
-Before starting, ensure you have completed the setup tasks in <https://github.com/denisecase/buzzline-01-case> first. 
-Python 3.11 is required. 
-
-In this task, we will download, install, configure, and start a local Kafka service. 
-
-1. Install Windows Subsystem for Linux (Windows machines only)
-2. Install Kafka Streaming Platform
-3. Start the Zookeeper service (leave the terminal open).
-4. Start the Kafka service (leave the terminal open).
-
-For detailed instructions, see:
-
-- [SETUP-KAFKA](docs/SETUP-KAFKA.md) (all machines)
-
-
-## Task 2. Copy This Example Project & Rename
-
-Copy/fork this project into your GitHub account
-and create your own version of this project to run and experiment with. 
-Name it `buzzline-02-yourname` where yourname is something unique to you.
-Follow the instructions in [FORK-THIS-REPO.md](https://github.com/denisecase/buzzline-01-case/blob/main/docs/FORK-THIS-REPO.md)).
-    
-
-## Task 3. Manage Local Project Virtual Environment
-
-Follow the instructions in [MANAGE-VENV.md](https://github.com/denisecase/buzzline-01-case/blob/main/docs/MANAGE-VENV.md) to:
-1. Create your .venv
-2. Activate .venv
-3. Install the required dependencies using requirements.txt.
-
-## Task 4. Start a Kafka Producer
-
-Producers generate streaming data for our topics.
-
-In VS Code, open a terminal.
-Use the commands below to activate .venv, and start the producer. 
-
+bash
+Copy
+Edit
+git clone https://github.com/your-username/buzzline-02-case.git
+cd buzzline-02-case
+Create & Activate Virtual Environment
 Windows:
-```shell
+
+bash
+Copy
+Edit
+python -m venv .venv
 .venv\Scripts\activate
-py -m producers.kafka_producer_case
-```
-
 Mac/Linux:
-```zsh
+
+bash
+Copy
+Edit
+python3 -m venv .venv
 source .venv/bin/activate
-python3 -m producers.kafka_producer_case
-```
+Install Dependencies
 
-## Task 5. Start a Kafka Consumer
-
-Consumers process data from topics or logs in real time.
-
-In VS Code, open a NEW terminal in your root project folder. 
-Use the commands below to activate .venv, and start the consumer. 
-
-Windows:
-```shell
+bash
+Copy
+Edit
+pip install -r requirements.txt
+How to Run
+Windows
+Activate virtual environment:
+bash
+Copy
+Edit
 .venv\Scripts\activate
-py -m consumers.kafka_consumer_case
-```
-
-Mac/Linux:
-```zsh
+Run the producer:
+bash
+Copy
+Edit
+py -m producers.kafka_producer_yourname
+Run the consumer:
+bash
+Copy
+Edit
+py -m consumers.kafka_consumer_yourname
+Mac/Linux
+Activate virtual environment:
+bash
+Copy
+Edit
 source .venv/bin/activate
-python3 -m consumers.kafka_consumer_case
-```
+Run the producer:
+bash
+Copy
+Edit
+python3 -m producers.kafka_producer_yourname
+Run the consumer:
+bash
+Copy
+Edit
+python3 -m consumers.kafka_consumer_yourname
+Note: Make sure your Kafka broker is running on localhost:9092 (or adjust the scripts accordingly if it’s different).
 
-## Later Work Sessions
-When resuming work on this project:
-1. Open the folder in VS Code. 
-2. Start the Zookeeper service.
-3. Start the Kafka service.
-4. Activate your local project virtual environment (.env).
+Logging & Real-Time Analytics
+Logging:
+Both the producer and consumer scripts use Python’s logging module. By default, logs may be directed to:
 
-## Save Space
-To save disk space, you can delete the .venv folder when not actively working on this project.
-You can always recreate it, activate it, and reinstall the necessary packages later. 
-Managing Python virtual environments is a valuable skill. 
+The console (standard out), and/or
+A log file in the logs/ directory.
+Real-Time Analytics:
+The consumer script demonstrates a simple mechanism for detecting the keyword "error". You can customize this logic to detect any pattern (e.g., "alert", "critical", or specific JSON values).
 
-## License
-This project is licensed under the MIT License as an example project. 
-You are encouraged to fork, copy, explore, and modify the code as you like. 
-See the [LICENSE](LICENSE.txt) file for more.
+python
+Copy
+Edit
+if "error" in msg.lower():
+    logger.warning(f"ALERT: Found an error in message: {msg}")
+Troubleshooting
+Kafka Connection Errors:
+Verify you can connect to Kafka on localhost:9092. If not, update bootstrap_servers in the Python scripts.
+Module Not Found:
+Double-check your virtual environment is active and you have installed all packages from requirements.txt.
+Permissions:
+On Mac/Linux, you might need to run chmod +x on certain scripts if you receive permission errors.
+Contributing
+Fork the repository on GitHub.
+Create a feature branch:
+bash
+Copy
+Edit
+git checkout -b feature/my-new-feature
+Commit your changes:
+bash
+Copy
+Edit
+git add .
+git commit -m "Add cool new feature"
+git push origin feature/my-new-feature
+Open a Pull Request on GitHub.
+License
+This project is open source. See the LICENSE file for details (if included), or choose a license that best fits your needs.
+
+Commit History
+You can review your commit history in GitHub by clicking on the commits link in your repository home page. Make sure your commits are small, frequent, and have meaningful messages.
+
+Example:
+
+git add .
+git commit -m "Add unique producer script"
+git push
